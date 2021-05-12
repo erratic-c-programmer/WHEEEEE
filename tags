@@ -1,0 +1,34 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/isaac/Devel/re/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210110.0/
+HOST	daemon.py	/^HOST = "127.0.0.1"$/;"	v
+PASSWDF	daemon.py	/^PASSWDF = "pwmanager\/passwd"$/;"	v
+PORT	daemon.py	/^PORT = int(sys.argv[1])$/;"	v
+SHADOWF	daemon.py	/^SHADOWF = "pwmanager\/shadow"$/;"	v
+__enter__	pwmanager/userlib.py	/^    def __enter__(self):$/;"	m	class:userfile
+__init__	pwmanager/userlib.py	/^    def __init__(self, passwdfilename, shadowfilename):$/;"	m	class:userfile
+add_user	pwmanager/userlib.py	/^    def add_user(self, username, passwd):$/;"	m	class:userfile
+addr	daemon.py	/^        conn, addr = s.accept()$/;"	v
+check	pwmanager/userlib.py	/^    def check(self, username, passwd):$/;"	m	class:userfile
+childproc	daemon.py	/^def childproc(conn, clientaddr):$/;"	f
+children	daemon.py	/^    children = []$/;"	v
+conn	daemon.py	/^        conn, addr = s.accept()$/;"	v
+get_salt	pwmanager/userlib.py	/^def get_salt():$/;"	f
+hash_passwd	pwmanager/userlib.py	/^def hash_passwd(plain, salt):$/;"	f
+hash_uname	pwmanager/userlib.py	/^def hash_uname(plain):$/;"	f
+newpid	daemon.py	/^        newpid = os.fork()$/;"	v
+passwd	pwmanager/add_user.py	/^passwd = input("Input new PASSWORD > ")$/;"	v
+passwd	pwmanager/check_user.py	/^passwd = input('PASSWORD > ')$/;"	v
+u	pwmanager/add_user.py	/^u = userfile("passwd", "shadow")$/;"	v
+ul	daemon.py	/^import userlib as ul$/;"	I	nameref:module:userlib
+uname	pwmanager/add_user.py	/^uname = input("Input new USERNAME > ")$/;"	v
+uname	pwmanager/check_user.py	/^uname = input('USERNAME > ')$/;"	v
+userfile	pwmanager/userlib.py	/^class userfile:$/;"	c

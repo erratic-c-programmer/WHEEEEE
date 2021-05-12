@@ -1,19 +1,35 @@
 #! /usr/bin/python3
 
 import os
-
-import userutils
 import hashlib
+import random, string
+
+
+def get_salt():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=128))
+
+
+def hash_passwd(plain, salt):
+    '''
+    Salt and hash input password. Length 128.
+    '''
+    return hashlib.pbkdf2_hmac('sha512', plain.encode(), salt.encode() , 100000, 64).hex() #?!?!
+
+
+def hash_uname(plain):
+    '''
+    Hash username into hash digest of length 128
+    '''
+    return hashlib.sha512(plain.encode()).hexdigest()
+
+
+######
 
 
 class userfile:
     def __init__(self, passwdfilename, shadowfilename):
-        self.passwdfile = open(passwdfilename, 'ab+')
-        self.shadowfile = open(shadowfilename, 'ab+')
-
-    def closestuff(self):
-        self.passwdfile.close()
-        self.shadowfile.close()
+        self.pwfname = passwdfilename
+        self.sfname = shadowfilename
 
 
     def __enter__(self):
@@ -21,14 +37,14 @@ class userfile:
 
 
     def add_user(self, username, passwd):
-        ret = userutils.hash_passwd(passwd)
-        # Write the username and : delimeter
-        # Fixed-length usernames of 128 characters
-        self.passwdfile.write((userutils.hash_uname(username) + ':').encode('utf-8'))  # Write the hash
-        self.passwdfile.write(ret[1])  # Write the salt
-        # Write the hash
-        self.shadowfile.write(ret[0])
-        return
+        with open(self.pwfname, "a") as pwfile, open(self.sfname, "a") as sfile:
+            salt = get_salt()
+            # Write the username and : delimeter
+            # Fixed-length usernames of 128 characters
+            pwfile.write(hash_uname(username)) # write hash
+            pwfile.write(salt) # write salt
+            sfile.write(hash_passwd(passwd, salt)) # write hash
+            return
 
 
     def check(self, username, passwd):
@@ -38,28 +54,26 @@ class userfile:
 
         # Init values
         storedas = 1
-        # If it's the first
-        self.passwdfile.seek(0)
-        cur_read = self.passwdfile.read(128 + 1 + 32).split(':'.encode())
-        cur_uname = cur_read[0]
-        salt = cur_read[1]
+        with open(self.pwfname, "r") as pwfile, open(self.sfname, "r") as sfile:
+            # If it's the first
+            cur_read = pwfile.read(128 + 128)
+            cur_uname = cur_read[:128]
+            cur_salt = cur_read[128:]
 
-        try:
-            while(cur_uname.decode() != hashlib.sha512(username.encode()).hexdigest()):
+            while(cur_uname != hash_uname(username)):
                 storedas += 1
-                cur_read = self.passwdfile.read(128 + 1 + 32).split(':'.encode())
-                cur_uname = cur_read[0]
-                salt = cur_read[1]
-        except IndexError:
-            return False
+                cur_read = pwfile.read(128 + 128)
+                if len(cur_read) == 0:
+                    hash_passwd("hohoho", "teehee") # prevent timing attacks I guess?
+                    return False
+                cur_uname = cur_read[:128]
+                cur_salt = cur_read[128:]
 
-        hashed = hashlib.pbkdf2_hmac('sha512', passwd.encode(),
-                salt, 100000, 32)
+            hashed = hash_passwd(passwd, cur_salt)
 
-        # Check against the true hash
-        truehash = None
-        self.shadowfile.seek(0)
-        for _ in range(storedas):
-            truehash = self.shadowfile.read(32)
+            # Check against the true hash
+            truehash = None
+            for _ in range(storedas):
+                truehash = sfile.read(128)
 
-        return hashed == truehash
+            return hashed == truehash

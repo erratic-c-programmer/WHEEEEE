@@ -1,5 +1,4 @@
 #! /usr/bin/python3
-from userutils import *
 from userlib import *
 
 uname = input('USERNAME > ')
