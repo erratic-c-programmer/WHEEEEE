@@ -15,18 +15,22 @@ PORT	daemon.py	/^PORT = int(sys.argv[1])$/;"	v
 SHADOWF	daemon.py	/^SHADOWF = "pwmanager\/shadow"$/;"	v
 __enter__	pwmanager/userlib.py	/^    def __enter__(self):$/;"	m	class:userfile
 __init__	pwmanager/userlib.py	/^    def __init__(self, passwdfilename, shadowfilename):$/;"	m	class:userfile
+__init__	table.py	/^    def __init__(self):$/;"	m	class:table
+add_col	table.py	/^    def add_col(self, name):$/;"	m	class:table
 add_user	pwmanager/userlib.py	/^    def add_user(self, username, passwd):$/;"	m	class:userfile
 addr	daemon.py	/^        conn, addr = s.accept()$/;"	v
 check	pwmanager/userlib.py	/^    def check(self, username, passwd):$/;"	m	class:userfile
 childproc	daemon.py	/^def childproc(conn, clientaddr):$/;"	f
 children	daemon.py	/^    children = []$/;"	v
 conn	daemon.py	/^        conn, addr = s.accept()$/;"	v
+get_cview	table.py	/^    def get_cview(self):$/;"	m	class:table
 get_salt	pwmanager/userlib.py	/^def get_salt():$/;"	f
 hash_passwd	pwmanager/userlib.py	/^def hash_passwd(plain, salt):$/;"	f
 hash_uname	pwmanager/userlib.py	/^def hash_uname(plain):$/;"	f
 newpid	daemon.py	/^        newpid = os.fork()$/;"	v
 passwd	pwmanager/add_user.py	/^passwd = input("Input new PASSWORD > ")$/;"	v
 passwd	pwmanager/check_user.py	/^passwd = input('PASSWORD > ')$/;"	v
+table	table.py	/^class table:$/;"	c
 u	pwmanager/add_user.py	/^u = userfile("passwd", "shadow")$/;"	v
 ul	daemon.py	/^import userlib as ul$/;"	I	nameref:module:userlib
 uname	pwmanager/add_user.py	/^uname = input("Input new USERNAME > ")$/;"	v
