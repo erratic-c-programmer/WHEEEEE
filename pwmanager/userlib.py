@@ -13,7 +13,7 @@ def hash_passwd(plain, salt):
     """
     Salt and hash input password. Length 128.
     """
-    return hashlib.pbkdf2_hmac('sha512', plain.encode(), salt.encode() , 100000, 64).hex() #?!?!
+    return hashlib.pbkdf2_hmac('sha512', plain.encode(), salt.encode(), 100000, 64).hex() #?!?!
 
 
 def hash_uname(plain):
